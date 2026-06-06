@@ -1,6 +1,6 @@
 # Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 
-pkgbase=linux
+pkgbase=linux-ogc
 pkgver=@@OGC_VERSION@@
 pkgrel=@@BUILDNUM@@
 pkgdesc='Linux'
