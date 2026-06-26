@@ -69,6 +69,7 @@ ExcludeArch:    %{ix86}
 
 # Stable patches
 Patch0: monolithic.patch
+Patch1: bc250-disable-dp-ss.patch
 
 %define __spec_install_post /usr/lib/rpm/brp-compress || :
 %define debug_package %{nil}
@@ -333,6 +334,9 @@ analysing the logical and timing behavior of Linux.
 
 # Apply OGC patch
 patch -p1 -i %{PATCH0}
+
+# Apply BC-250 DP audio fix patch
+patch -p1 -i %{PATCH1}
 
 # Fetch the config and move it to the proper directory
 cp %{SOURCE1} .config
