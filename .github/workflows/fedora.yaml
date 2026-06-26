@@ -189,7 +189,7 @@ jobs:
                   tar -xf linux-${TAR_KVER}.tar.xz
                   cd linux-${TAR_KVER}
                   patch -Np1 < ../monolithic.patch
-                  cat -n drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | head -n 3000 | tail -n 1200
+                  # cat -n drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | head -n 3000 | tail -n 1200
                   patch --ignore-whitespace -Np1 < ../bc250-disable-dp-ss.patch
 
             - name: Merge kernel configuration files
