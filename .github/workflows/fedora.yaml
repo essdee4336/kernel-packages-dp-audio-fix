@@ -221,6 +221,7 @@ jobs:
                   # Pre-populate SOURCES with already-downloaded files
                   cp linux-${TAR_KVER}.tar.xz "$TOPDIR/SOURCES/"
                   cp monolithic.patch "$TOPDIR/SOURCES/"
+                  cp bc250-disable-dp-ss.patch "$TOPDIR/SOURCES/"
                   cp fedora/kvm_stat.logrotate "$TOPDIR/SOURCES/"
                   # Copy patched config
                   cp linux-${TAR_KVER}/.config "$TOPDIR/SOURCES/config"
