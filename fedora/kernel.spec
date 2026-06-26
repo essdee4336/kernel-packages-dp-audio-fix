@@ -336,7 +336,7 @@ analysing the logical and timing behavior of Linux.
 patch -p1 -i %{PATCH0}
 
 # Apply BC-250 DP audio fix patch
-patch -p1 -i %{PATCH1}
+patch --ignore-whitespace -p1 -i %{PATCH1}
 
 # Fetch the config and move it to the proper directory
 cp %{SOURCE1} .config
