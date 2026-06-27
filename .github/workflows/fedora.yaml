@@ -245,7 +245,7 @@ jobs:
                   REPO="${{ env.OCI_REPO }}"
                   TOPDIR="$(pwd)/rpmbuild"
                   mkdir -p /tmp/rpms
-                  cp "$(pwd)/rpmbuild"/RPMS/x86_64/*.rpm /tmp/rpms/ 2>/dev/null || true
+                  cp "$TOPDIR"/RPMS/x86_64/*.rpm /tmp/rpms/ 2>/dev/null || true
                   cp "$TOPDIR"/RPMS/noarch/*.rpm /tmp/rpms/ 2>/dev/null || true
                   cd /tmp/rpms
                   ls
@@ -264,6 +264,7 @@ jobs:
                 path: |
                   /tmp/rpms/**/*.rpm
                   /__w/kernel-packages-dp-audio-fix/kernel-packages-dp-audio-fix/rpmbuild/RPMS/x86_64/*
+                  /__w/kernel-packages-dp-audio-fix/kernel-packages-dp-audio-fix/rpmbuild/RPMS/noarch/*
                 compression-level: 7
                 retention-days: 3
 
