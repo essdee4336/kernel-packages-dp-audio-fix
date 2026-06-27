@@ -290,9 +290,11 @@ jobs:
                     --certificate-oidc-issuer="https://token.actions.githubusercontent.com" \
                     "${REPO}:${VERSION}-fc${{ matrix.fedora_version }}"
 
-            - name: Save built packages as artifacts
+            - name: Save built packages as an artifact
               uses: actions/upload-artifact@v4
               with:
                 name: kernel-packages
-                path: /tmp/rpms/
-                retention-days: 5
+                path: |
+                  /tmp/rpms/*.rpm
+                compression-level: 7
+                retention-days: 3
