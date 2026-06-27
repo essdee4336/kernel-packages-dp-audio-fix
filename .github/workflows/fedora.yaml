@@ -245,9 +245,10 @@ jobs:
                   REPO="${{ env.OCI_REPO }}"
                   TOPDIR="$(pwd)/rpmbuild"
                   mkdir -p /tmp/rpms
-                  cp "$TOPDIR"/RPMS/x86_64/*.rpm /tmp/rpms/ 2>/dev/null || true
+                  cp "$(pwd)/rpmbuild"/RPMS/x86_64/*.rpm /tmp/rpms/ 2>/dev/null || true
                   cp "$TOPDIR"/RPMS/noarch/*.rpm /tmp/rpms/ 2>/dev/null || true
                   cd /tmp/rpms
+                  ls
                   DIGEST=$(oras push --format json "${REPO}:${VERSION}-fc${{ matrix.fedora_version }}" ./*.rpm | jq -r '.digest')
                   if [ -z "$DIGEST" ]; then
                       echo "::error::Failed to capture digest from oras push"
@@ -255,6 +256,16 @@ jobs:
                   fi
                   oras tag "${REPO}:${VERSION}-fc${{ matrix.fedora_version }}" latest-fc${{ matrix.fedora_version }}
                   echo "digest=$DIGEST" >> "$GITHUB_OUTPUT"
+
+            - name: Save built packages as an artifact
+              uses: actions/upload-artifact@v4
+              with:
+                name: kernel-packages
+                path: |
+                  /tmp/rpms/**/*.rpm
+                  /__w/kernel-packages-dp-audio-fix/kernel-packages-dp-audio-fix/rpmbuild/RPMS/x86_64/*
+                compression-level: 7
+                retention-days: 3
 
             - name: Tag with content hash
               if: startsWith(github.ref, 'refs/tags/') && steps.check-existing.outputs.exists != 'true'
@@ -289,12 +300,3 @@ jobs:
                     --certificate-identity-regexp=".*" \
                     --certificate-oidc-issuer="https://token.actions.githubusercontent.com" \
                     "${REPO}:${VERSION}-fc${{ matrix.fedora_version }}"
-
-            - name: Save built packages as an artifact
-              uses: actions/upload-artifact@v4
-              with:
-                name: kernel-packages
-                path: |
-                  /tmp/rpms/*.rpm
-                compression-level: 7
-                retention-days: 3
