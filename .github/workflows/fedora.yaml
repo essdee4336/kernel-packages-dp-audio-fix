@@ -290,26 +290,9 @@ jobs:
                     --certificate-oidc-issuer="https://token.actions.githubusercontent.com" \
                     "${REPO}:${VERSION}-fc${{ matrix.fedora_version }}"
 
-            - name: Generate OCI attestation
-              uses: actions/attest-build-provenance@v3
+            - name: Save built packages as artifacts
+              uses: actions/upload-artifact@v4
               with:
-                  subject-digest: "${{ steps.upload.outputs.digest }}"
-                  subject-name: "ghcr.io/${{ github.repository }}"
-                  push-to-registry: true
-
-            - name: Upload OCI image to latest          
-              if: github.ref_type == 'tag' && contains(github.ref_name, '-ba')
-              run: |
-                  podman push "localhost/kernel-f${{ matrix.fedora_version}}" \
-                  "docker://ghcr.io/${{ github.repository }}:latest-f${{ matrix.fedora_version }}-${{ matrix.arch }}"
-
-            - name: Upload Kernel to release
-              if: github.ref_type == 'tag'
-              uses: softprops/action-gh-release@v2
-              env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                files: |
-                  /tmp/rpms/*.rpm
-                fail_on_unmatched_files: false
-                draft: true
+                name: kernel-packages
+                path: /tmp/rpms/
+                retention-days: 5
